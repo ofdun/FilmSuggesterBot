@@ -1,6 +1,7 @@
 import telebot
 import requests
 from settings import *
+import json
 
 bot = telebot.TeleBot(TOKEN)
 keyboard = telebot.types.ReplyKeyboardMarkup(row_width=2)
@@ -20,7 +21,7 @@ def advice_film(message) -> None:
     bot.send_message(message.chat.id, "Ищу...")
     film_data = get_random_film()
     if isinstance(film_data, str):
-        bot.send_message(message.chat.id, film_data)
+        bot.send_message(message.chat.id, f"Ошибка! {json.loads(film_data)['message']}")
         return
     bot.send_photo(message.chat.id, film_data['poster_url'])
     response = f"""
